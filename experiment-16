@@ -1,0 +1,46 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char text[2000];
+    int count[26] = {0};
+    int used[26] = {0};
+    int i, j, max, index;
+
+    printf("Enter ciphertext:\n");
+    fgets(text, sizeof(text), stdin);
+
+    for (i = 0; text[i]; i++)
+        if (isalpha((unsigned char)text[i]))
+            count[toupper((unsigned char)text[i]) - 'A']++;
+
+    printf("\nCipher letter frequency:\n");
+
+    for (i = 0; i < 26; i++)
+    {
+        max = -1;
+        index = -1;
+
+        for (j = 0; j < 26; j++)
+            if (!used[j] && count[j] > max)
+            {
+                max = count[j];
+                index = j;
+            }
+
+        if (index >= 0)
+        {
+            used[index] = 1;
+            printf("%c : %d\n", 'A' + index, max);
+        }
+    }
+
+    printf("\nCommon English frequency order:\n");
+    printf("E T A O I N S H R D L U\n");
+    printf("Use this order to estimate substitutions.\n");
+
+    return 0;
+}
