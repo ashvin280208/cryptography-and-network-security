@@ -1,0 +1,56 @@
+
+#include <stdio.h>
+#include <stdint.h>
+#include <openssl/des.h>
+
+int main()
+{
+    DES_cblock k1, k2, k3, iv;
+    DES_key_schedule s1, s2, s3;
+    DES_cblock plain[2], cipher[2];
+    DES_cblock previous;
+    int i, j;
+
+    DES_string_to_key("FirstKey", &k1);
+    DES_string_to_key("SecondKey", &k2);
+    DES_string_to_key("ThirdKey", &k3);
+
+    DES_set_key_unchecked(&k1, &s1);
+    DES_set_key_unchecked(&k2, &s2);
+    DES_set_key_unchecked(&k3, &s3);
+
+    for (i = 0; i < 8; i++)
+        iv[i] = i;
+
+    for (i = 0; i < 2; i++)
+    {
+        printf("Enter 8 characters for block %d: ", i+1);
+        scanf("%8c", plain[i]);
+        if (i == 0)
+            getchar();
+    }
+
+    for (j = 0; j < 8; j++)
+        previous[j] = iv[j];
+
+    for (i = 0; i < 2; i++)
+    {
+        DES_cblock temp;
+
+        for (j = 0; j < 8; j++)
+            temp[j] = plain[i][j] ^ previous[j];
+
+        DES_ecb3_encrypt(&temp, &cipher[i],
+                         &s1, &s2, &s3, DES_ENCRYPT);
+
+        for (j = 0; j < 8; j++)
+            previous[j] = cipher[i][j];
+
+        printf("Cipher block %d: ", i+1);
+        for (j = 0; j < 8; j++)
+            printf("%02X", cipher[i][j]);
+        printf("\n");
+    }
+
+    return 0;
+}
