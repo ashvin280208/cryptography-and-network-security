@@ -1,0 +1,32 @@
+
+#include <stdio.h>
+#include <stdint.h>
+
+int main()
+{
+    int shifts[16] = {
+        1,1,2,2,2,2,2,2,
+        1,2,2,2,2,2,1,1
+    };
+
+    uint64_t roundKeys[16];
+
+    /*
+       roundKeys[] must contain the 16 DES
+       subkeys generated using PC-1, rotations,
+       and PC-2 from the original 64-bit key.
+    */
+
+    printf("DES decryption key order:\n");
+
+    for (int i = 15; i >= 0; i--)
+        printf("Round %d uses K%d\n", 16-i, i+1);
+
+    printf("\nReverse shift schedule:\n");
+
+    for (int i = 15; i >= 0; i--)
+        printf("%d ", shifts[i]);
+
+    printf("\n");
+    return 0;
+}
