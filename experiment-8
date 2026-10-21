@@ -1,0 +1,50 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+    char key[] = "CIPHER";
+    char plain[27], cipher[27];
+    char text[200];
+    int i, j, k = 0, used[26] = {0};
+
+    for (i = 0; key[i]; i++)
+    {
+        char ch = toupper(key[i]);
+        if (!used[ch - 'A'])
+        {
+            cipher[k++] = ch;
+            used[ch - 'A'] = 1;
+        }
+    }
+
+    for (i = 0; i < 26; i++)
+        if (!used[i])
+            cipher[k++] = 'A' + i;
+
+    for (i = 0; i < 26; i++)
+        plain[i] = 'A' + i;
+
+    cipher[26] = '\0';
+
+    printf("Enter plaintext: ");
+    fgets(text, sizeof(text), stdin);
+
+    printf("Ciphertext: ");
+    for (i = 0; text[i] != '\0'; i++)
+    {
+        if (isalpha((unsigned char)text[i]))
+        {
+            char ch = toupper((unsigned char)text[i]);
+            j = ch - 'A';
+            putchar(cipher[j]);
+        }
+        else
+            putchar(text[i]);
+    }
+
+    printf("\nCipher alphabet: %s\n", cipher);
+    return 0;
+}
